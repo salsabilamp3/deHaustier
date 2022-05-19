@@ -32,7 +32,7 @@ typedef struct {
 
 /* ==== Konstruktor ==== */
 /* Mengirimkan address hasil alokasi elemen dengan info X */
-address alokList(infoPenyakit X);
+adrList alokList(infoPenyakit X);
 
 /* Melakukan dealokasi memori dari elmen P */
 void dealokList(address P);
