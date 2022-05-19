@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <conio.h>
 #include "boolean.h"
+#include "list.h"
 
 #define Nil NULL
 #define HEAD(Q) (Q).HEAD
@@ -27,6 +28,7 @@ typedef struct {
 	int waktuTunggu;
 	int waktuMulai;
 	int waktuSelesai;
+	List listPenyakit;
 }infoPasien;
 typedef struct tElmQueue {
 	infoPasien info;
