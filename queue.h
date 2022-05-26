@@ -12,11 +12,9 @@
 #include "boolean.h"
 #include "list.h"
 
-#define Nil NULL
 #define HEAD(Q) (Q).HEAD
-#define TAIL(Q) (Q).TAIL
-#define Info(P) (P)->info
-#define Next(P) (P)->next
+#define InfoQ(P) (P)->info
+#define NextQ(P) (P)->next
 
 typedef struct tElmQueue *address;
 typedef struct {
@@ -36,7 +34,6 @@ typedef struct tElmQueue {
 }ElmQueue; 
 typedef struct{
 	address HEAD;
-	address TAIL;
 }Queue;
 
 /* ==== Konstruktor ==== */
