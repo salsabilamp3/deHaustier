@@ -12,8 +12,8 @@
 #include "boolean.h"
 
 #define Nil NULL
-#define Info(P) (P)->info
-#define Next(P) (P)->next
+#define InfoL(P) (P)->info
+#define NextL(P) (P)->next
 #define First(L) (L).First
 
 typedef struct  {
@@ -35,7 +35,7 @@ typedef struct {
 adrList alokList(infoPenyakit X);
 
 /* Melakukan dealokasi memori dari elmen P */
-void dealokList(address P);
+void dealokList(adrList P);
 
 /* Membuat List kosong dengan First = Nil */
 void createList(List *L);
@@ -50,10 +50,10 @@ void insertFirst(List *L, infoPenyakit X);
 void insertLast(List *L, infoPenyakit X);
 
 /* Menghapus elemen pertama pada List */
-void delFirst(List *L, infotype *X);
+void delFirst(List *L, infoPenyakit *X);
 
 /* Menghapus elemen terakhir pada List */
-void delLast(List *L, infotype *X);
+void delLast(List *L, infoPenyakit *X);
 
 /* Menampilkan isi elemen yang ada pada List */
 void printList(List L, char **namaPenyakit);
