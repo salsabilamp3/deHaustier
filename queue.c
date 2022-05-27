@@ -75,7 +75,7 @@ void deQueue(Queue *Q){
 	address P;
 	
 	if(isQueEmpty(*Q)){
-		print("Antrian kosong\n");
+		printf("Antrian kosong\n");
 	}
 	else{
 		P = HEAD(*Q);
@@ -163,7 +163,7 @@ void printQueue(Queue Q){
 			printf("Penyakit yang diderita : ");
 			printList(InfoQ(P).listPenyakit, arrPenyakit);
 			printf("Nilai prioritas : %d\n", InfoQ(P).nilaiPrioritas);
-			printf("Estimasi waktu pelayanan :", InfoQ(P).waktuEstimasi);
+			printf("Estimasi waktu pelayanan : %d\n", InfoQ(P).waktuEstimasi);
 			printf("Waktu tunggu : %d\n", InfoQ(P).waktuTunggu);
 			printf("Waktu mulai pelayanan : %d\n", InfoQ(P).waktuMulai);
 			printf("Waktu pelayanan selesai : %d\n", InfoQ(P).waktuSelesai);
