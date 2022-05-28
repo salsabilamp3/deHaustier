@@ -101,12 +101,15 @@ void delLast(List *L, infoPenyakit *X){
 void printList(List L, char **namaPenyakit){
 	adrList P = First(L);
 	int i = 1;
+	char empty = ' ';
+	
 	if(isListEmpty(L)){
 		printf("List Kosong.\n");
 	}
 	else{
 		do{
 			printf("%d) %s : %s\n", i, namaPenyakit[InfoL(P).penyakit -1], InfoL(P).kategori);
+			printf("%65.c", empty);
 			P = NextL(P);
 		} while(P != Nil);
 	}
