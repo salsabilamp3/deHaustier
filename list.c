@@ -111,6 +111,7 @@ void printList(List L, char **namaPenyakit){
 			printf("%d) %s : %s\n", i, namaPenyakit[InfoL(P).penyakit -1], InfoL(P).kategori);
 			printf("%65.c", empty);
 			P = NextL(P);
+			i += 1;
 		} while(P != Nil);
 	}
 }
