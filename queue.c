@@ -56,7 +56,8 @@ void enQueue(Queue *Q, infoPasien X){
 	
 	P = alokasi(X);
 	if(P != Nil){
-		if(isQueEmpty((*Q))){
+		if(isQueEmpty((*Q)) || X.nilaiPrioritas > InfoQ(HEAD(*Q)).nilaiPrioritas){
+			NextQ(P) = HEAD(*Q);
 			HEAD(*Q) = P;
 		}
 		else{
