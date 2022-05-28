@@ -238,26 +238,18 @@ int hitungEstimasi(int ringan, int sedang, int berat){
 
 /* Menghitung waktu mulai hingga selesai dan berapa lama pasien menunggu */
 void hitungWaktu(Queue *Q){
-	/*ver 1 masih error 26 Mei 22*/
 	address P, prev;
 	
 	P = HEAD(*Q);
+	InfoQ(P).waktuTunggu = 0;
+	InfoQ(P).waktuMulai = InfoQ(P).waktuDatang;
+	InfoQ(P).waktuSelesai = InfoQ(P).waktuMulai + InfoQ(P).waktuEstimasi;
+	prev = P;
+	P = NextQ(P);
 	while(P != Nil){
-		if(P == HEAD(*Q)){
-			InfoQ(P).waktuTunggu = 0;
-			InfoQ(P).waktuMulai = InfoQ(P).waktuDatang;
-			InfoQ(P).waktuSelesai = InfoQ(P).waktuMulai + InfoQ(P).waktuEstimasi;
-		}
-		else{
-			if(InfoQ(prev).waktuSelesai > InfoQ(P).waktuDatang){
-				InfoQ(P).waktuTunggu = InfoQ(prev).waktuSelesai - InfoQ(P).waktuDatang;
-			}
-			else{
-				InfoQ(P).waktuTunggu = 0;
-				InfoQ(P).waktuMulai = InfoQ(P).waktuTunggu + InfoQ(P).waktuDatang;
-				InfoQ(P).waktuSelesai = InfoQ(P).waktuMulai + InfoQ(P).waktuEstimasi;
-			}
-		}
+		InfoQ(P).waktuTunggu = InfoQ(prev).waktuSelesai - InfoQ(P).waktuDatang;
+		InfoQ(P).waktuMulai = InfoQ(P).waktuTunggu + InfoQ(P).waktuDatang;
+		InfoQ(P).waktuSelesai = InfoQ(P).waktuMulai + InfoQ(P).waktuEstimasi;
 		prev = P;
 		P = NextQ(P);
 	}
