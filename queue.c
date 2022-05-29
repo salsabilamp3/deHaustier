@@ -174,7 +174,50 @@ void printQueue(Queue Q){
 
 /* Memproses antrian untuk dilakukan pelayanan pada pasien dan keluar dari antrian */
 void prosesAntrian(Queue *Q){
+	system ("cls");
+	address P;
+	infoPasien R;	
+	int i=1;
+	char pilih;
 	
+	P = (*Q).HEAD;
+	
+	printf("					====================================\n");
+	printf("						   Proses Antrian\n");
+	printf("					====================================\n");
+	
+	if (P == Nil) { // Jika Queue Kosong
+		printf("\n					* Tidak Ada Antrian yang Terdaftar *\n\n");
+    } else {
+		while(P != Nil){
+			printf("					No. Antrian                 : %d\n", i++);
+			printf("					Nama Hewan                  : %s\n", InfoQ(P).namaHewan);
+			printf("					Datang di menit ke          : %d\n", InfoQ(P).waktuDatang);
+			puts("				        Penyakit yang Diderita      : ");
+			printList(InfoQ(P).listPenyakit, arrPenyakit);
+			printf("					Nilai Prioritas             : %d\n", InfoQ(P).nilaiPrioritas);
+			printf("					Estimasi Waktu Pelayanan    : %d\n", InfoQ(P).waktuEstimasi);
+			printf("					Waktu Tunggu Pelayanan      : %d\n", InfoQ(P).waktuTunggu);
+			printf("					Waktu Mulai Pelayanan       : %d\n", InfoQ(P).waktuMulai);
+			printf("					Waktu Selesai Pelayanan     : %d\n", InfoQ(P).waktuSelesai);		
+			printf("					------------------------------------\n");
+			P = NextQ(P);
+			R = (*Q).HEAD->info ;
+			printf("					Memulai Proses Pelayanan Untuk %s? [Y/N] ", R.namaHewan);
+			fflush(stdin);
+			scanf("%c", &pilih);
+			
+			if(pilih == 'Y' || pilih == 'y'){
+				deQueue(Q);
+				printf("\n");
+				printf("					       * Harap bersabar *\n");
+				printf("					  * Hewan Anda Sedang Diobati *\n\n");
+			} 
+			else if(pilih == 'N' || pilih == 'n'){
+				printf("					*  Silahkan Kembali Ke Antrian *\n");
+			}
+		}
+	}	
 }
 
 /* Menampilkan list penyakit yang bisa dipilih */
