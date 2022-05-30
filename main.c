@@ -58,7 +58,11 @@ int main(int argc, char *argv[]) {
 			printQueue(Q);
 			system("pause");
 		}
-	} while(pilihanMenu != '4');
+		
+		if(pilihanMenu == '4'){
+			
+		}
+	} while(pilihanMenu != '5');
 	
 	return 0;
 }
