@@ -8,6 +8,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+int latestSelesai = 0;
 char *arrPenyakit[9] = {
 	"Penyakit kulit",
 	"Luka ringan",
@@ -80,6 +81,7 @@ void deQueue(Queue *Q){
 	}
 	else{
 		P = HEAD(*Q);
+		latestSelesai = InfoQ(P).waktuSelesai;
 		if(NextQ(P) == Nil){
 			HEAD(*Q) = Nil;
 		}
@@ -99,13 +101,18 @@ void registrasi(Queue *Q){
 	int tempPenyakit[9];
 	int i, totalPenyakit, countRingan, countSedang, countBerat;
 	char empty = ' ';
+	int maxWaktuDatang = getWaktuDatangTerbaru((*Q));
 	
 	printf("\n%40.cNama Pemilik: ",empty);
 	scanf("%s", &X.namaPemilik);
 	printf("%40.cNama Hewan: ",empty);
 	scanf("%s", &X.namaHewan);
-	printf("%40.cWaktu datang: ",empty);
-	scanf("%d", &X.waktuDatang);
+	
+	do{
+		printf("%40.cWaktu datang: ",empty);
+		scanf("%d", &X.waktuDatang);
+	}while(X.waktuDatang < maxWaktuDatang);
+	
 	printf("\n%40.cPenyakit:\n",empty);
 	printPenyakit();
 	printf("\n%40.cJumlah Penyakit: ",empty);
@@ -153,6 +160,7 @@ void printQueue(Queue Q){
 		printf("\n%50.cAntrian kosong\n",empty);
 	}
 	else{
+			printf("\nJUMLAH ANTRIAN : %d\n\n", (jumlahAntrian(Q)));
 		while(P != Nil){
 			printf("%40.cNo. Antrian : %d\n",empty, i);
 			printf("%40.cNama Pemilik : %s\n",empty, InfoQ(P).namaPemilik);
@@ -169,7 +177,7 @@ void printQueue(Queue Q){
 			i++;
 			P = NextQ(P);
 		}
-		printf("\nJUMLAH ANTRIAN : %d\n\n", (jumlahAntrian(Q)));
+	
 	}
 }
 
@@ -300,18 +308,51 @@ void hitungWaktu(Queue *Q){
 	address P, prev;
 	
 	P = HEAD(*Q);
-	InfoQ(P).waktuTunggu = 0;
-	InfoQ(P).waktuMulai = InfoQ(P).waktuDatang;
+	if(latestSelesai == 0 || latestSelesai < InfoQ(P).waktuDatang){
+		InfoQ(P).waktuTunggu = 0;
+		InfoQ(P).waktuMulai = InfoQ(P).waktuDatang;
+	}
+	else{
+		InfoQ(P).waktuTunggu = latestSelesai - InfoQ(P).waktuDatang;
+		InfoQ(P).waktuMulai = latestSelesai;
+	}
+	
 	InfoQ(P).waktuSelesai = InfoQ(P).waktuMulai + InfoQ(P).waktuEstimasi;
 	prev = P;
 	P = NextQ(P);
 	while(P != Nil){
 		InfoQ(P).waktuTunggu = InfoQ(prev).waktuSelesai - InfoQ(P).waktuDatang;
 		InfoQ(P).waktuMulai = InfoQ(P).waktuTunggu + InfoQ(P).waktuDatang;
+		if(InfoQ(P).waktuTunggu <= 0){
+			InfoQ(P).waktuTunggu = 0;
+			InfoQ(P).waktuMulai = InfoQ(P).waktuDatang;
+		}
 		InfoQ(P).waktuSelesai = InfoQ(P).waktuMulai + InfoQ(P).waktuEstimasi;
 		prev = P;
 		P = NextQ(P);
 	}
+}
+
+/* Mengirimkan nilai waktu datang terbaru atau terbesar */
+int getWaktuDatangTerbaru(Queue Q){
+	int max = 0;
+	address P = HEAD(Q);
+	
+	if(!isQueEmpty(Q)){
+		max = InfoQ(P).waktuDatang;
+		while(NextQ(P) != Nil){
+			if(InfoQ(P).waktuDatang >= InfoQ(NextQ(P)).waktuDatang){
+				max = InfoQ(P).waktuDatang;
+			}
+			else{
+				max = InfoQ(NextQ(P)).waktuDatang;
+			}
+			P = NextQ(P);
+		}
+	}
+	
+	return max;
+	
 }
 
 int jumlahAntrian(Queue Q){
