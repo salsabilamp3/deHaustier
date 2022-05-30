@@ -82,4 +82,7 @@ int hitungEstimasi(int ringan, int sedang, int berat);
 /* Menghitung waktu mulai hingga selesai dan berapa lama pasien menunggu */
 void hitungWaktu(Queue *Q);
 
+/* Menghitung jumlah antrian*/
+int jumlahAntrian(Queue Q);
+
 #endif
