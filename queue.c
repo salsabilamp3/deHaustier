@@ -198,7 +198,7 @@ void prosesAntrian(Queue *Q){
 	if (P == Nil) { // Jika Queue Kosong
 		printf("\n					* Tidak Ada Antrian yang Terdaftar *\n\n");
     } else {
-		while(P != Nil){
+		do{
 			printf("					No. Antrian                 : %d\n", i++);
 			printf("					Nama Hewan                  : %s\n", InfoQ(P).namaHewan);
 			printf("					Datang di menit ke          : %d\n", InfoQ(P).waktuDatang);
@@ -225,7 +225,7 @@ void prosesAntrian(Queue *Q){
 			else if(pilih == 'N' || pilih == 'n'){
 				printf("					*  Silahkan Kembali Ke Antrian *\n");
 			}
-		}
+		}while(P != Nil && (pilih == 'Y' || pilih == 'y'));
 	}	
 }
 
