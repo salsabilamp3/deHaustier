@@ -169,6 +169,7 @@ void printQueue(Queue Q){
 			i++;
 			P = NextQ(P);
 		}
+		printf("\nJUMLAH ANTRIAN : %d\n\n", (jumlahAntrian(Q)));
 	}
 }
 
@@ -311,4 +312,21 @@ void hitungWaktu(Queue *Q){
 		prev = P;
 		P = NextQ(P);
 	}
+}
+
+int jumlahAntrian(Queue Q){
+		int jumlah = 0;
+		address P = HEAD(Q);
+		char empty = ' ';
+		
+		if(isQueEmpty(Q)){
+		printf("\n%50.cAntrian kosong\n",empty);	
+		}else {
+			while (P != NULL) {
+				jumlah++;
+				P = NextQ(P);
+			}
+			
+		}
+		return jumlah;
 }
