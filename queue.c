@@ -160,7 +160,7 @@ void printQueue(Queue Q){
 		printf("\n%50.cAntrian kosong\n",empty);
 	}
 	else{
-			printf("\nJUMLAH ANTRIAN : %d\n\n", (jumlahAntrian(Q)));
+			printf("\n%40.cJUMLAH ANTRIAN : %d\n\n",empty, (jumlahAntrian(Q)));
 		while(P != Nil){
 			printf("%40.cNo. Antrian : %d\n",empty, i);
 			printf("%40.cNama Pemilik : %s\n",empty, InfoQ(P).namaPemilik);

@@ -69,24 +69,7 @@ int main(int argc, char *argv[]) {
 		if(pilihanMenu == '4'){
 			system("cls");
 			printLogo();
-			printf("\n%10.c%c%34.c___  ___      ___            __  ",empty,186,empty);printf("%33.c%c\n",empty,186);
-			printf("%10.c%c%34.c |  |__  |%c |  |   /%c  |%c | / _` ",empty,186,empty,92,92,92);printf("%33.c%c\n",empty,186);
-			printf("%10.c%c%34.c |  |___ | %c|  |  /~~%c | %c| %c__> ",empty,186,empty,92,92,92,92);printf("%33.c%c\n",empty,186);
-            printf("%10.c%c",empty,186);for(panjang=0; panjang<100; panjang++){printf("%c",empty);}printf("%c\n",186);                                                          
-		    printf("%10.c%c",empty,204);for(panjang=0; panjang<100; panjang++){printf("%c",205);}printf("%c\n",185);
-		    printf("%10.c%c",empty,186);for(panjang=0; panjang<100; panjang++){printf("%c",empty);}printf("%c\n",186); 
-		    printf("%10.c%c%5.cAplikasi layanan dokter hewan ini dirancang dan dibuat oleh Kelompok 8 yang",empty,186,empty);printf("%20.c%c\n",empty,186); 
-		    printf("%10.c%c%5.cberanggotakan:",empty,186,empty);printf("%81.c%c\n",empty,186); 
-		    printf("%10.c%c",empty,186);for(panjang=0; panjang<100; panjang++){printf("%c",empty);}printf("%c\n",186); 
-		    printf("%10.c%c%27.cSalsabila Maharani Putri (211524026) (Leader)",empty,186,empty);printf("%28.c%c\n",empty,186); 
-		    printf("%10.c%c%27.cFariz Muhamad Ibnu Hisyam (211524010)",empty,186,empty);printf("%36.c%c\n",empty,186); 
-		    printf("%10.c%c%27.cYane Pradita (211524029)",empty,186,empty);printf("%49.c%c\n",empty,186); 
-		    printf("%10.c%c",empty,186);for(panjang=0; panjang<100; panjang++){printf("%c",empty);}printf("%c\n",186); 
-		    printf("%10.c%c%5.cdeHaustier merupakan program untuk memproses antrian layanan dokter hewan, yang dibuat",empty,186,empty);printf("%9.c%c\n",empty,186); 
-			printf("%10.c%c%5.cdengan bahasa C. Antrian pada program ini menggunakan priority queue dengan impelementasi",empty,186,empty);printf("%6.c%c\n",empty,186); 
-			printf("%10.c%c%5.cmenggunakan linked list. Sehingga antrian akan berubah urutannya berdasarkan nilai prioritas.",empty,186,empty);printf("%2.c%c\n",empty,186); 
-			printf("%10.c%c",empty,186);for(panjang=0; panjang<100; panjang++){printf("%c",empty);}printf("%c\n",186); 
-		    printf("%10.c%c",empty,200);for(panjang=0; panjang<100; panjang++){printf("%c",205);}printf("%c\n",188);
+			printTentang();
 			system("pause");
 		}
 	} while(pilihanMenu != '5');
@@ -116,4 +99,29 @@ void printLogo(){
 	printf("%10.c%c%3.c%c_______/  %c_______|%c__|  %c__| %c_______| %c______/ %c_______/    %c____/ %c__| %c_______|%c__|      ",empty,186,empty,92,92,92,92,92,92,92,92,92,92,92);printf("%3.c%c\n",empty,186);	 
 	printf("%10.c%c",empty,186);for(panjang=0; panjang<100; panjang++){printf("%c",empty);}printf("%c\n",186);
     printf("%10.c%c",empty,204);for(panjang=0; panjang<100; panjang++){printf("%c",205);}printf("%c",185);
+}
+
+void printTentang(){
+	int panjang;
+	char empty = ' ';
+	
+	/** T A M P I L A N   T E N T A N G **/
+	printf("\n%10.c%c%34.c___  ___      ___            __  ",empty,186,empty);printf("%33.c%c\n",empty,186);
+	printf("%10.c%c%34.c |  |__  |%c |  |   /%c  |%c | / _` ",empty,186,empty,92,92,92);printf("%33.c%c\n",empty,186);
+	printf("%10.c%c%34.c |  |___ | %c|  |  /~~%c | %c| %c__> ",empty,186,empty,92,92,92,92);printf("%33.c%c\n",empty,186);
+    printf("%10.c%c",empty,186);for(panjang=0; panjang<100; panjang++){printf("%c",empty);}printf("%c\n",186);                                                          
+	printf("%10.c%c",empty,204);for(panjang=0; panjang<100; panjang++){printf("%c",205);}printf("%c\n",185);
+	printf("%10.c%c",empty,186);for(panjang=0; panjang<100; panjang++){printf("%c",empty);}printf("%c\n",186); 
+	printf("%10.c%c%5.cAplikasi layanan dokter hewan ini dirancang dan dibuat oleh Kelompok 8 yang",empty,186,empty);printf("%20.c%c\n",empty,186); 
+	printf("%10.c%c%5.cberanggotakan:",empty,186,empty);printf("%81.c%c\n",empty,186); 
+	printf("%10.c%c",empty,186);for(panjang=0; panjang<100; panjang++){printf("%c",empty);}printf("%c\n",186); 
+	printf("%10.c%c%27.cSalsabila Maharani Putri (211524026) (Leader)",empty,186,empty);printf("%28.c%c\n",empty,186); 
+	printf("%10.c%c%27.cFariz Muhamad Ibnu Hisyam (211524010)",empty,186,empty);printf("%36.c%c\n",empty,186); 
+	printf("%10.c%c%27.cYane Pradita (211524029)",empty,186,empty);printf("%49.c%c\n",empty,186); 
+	printf("%10.c%c",empty,186);for(panjang=0; panjang<100; panjang++){printf("%c",empty);}printf("%c\n",186); 
+	printf("%10.c%c%5.cdeHaustier merupakan program untuk memproses antrian layanan dokter hewan, yang dibuat",empty,186,empty);printf("%9.c%c\n",empty,186); 
+	printf("%10.c%c%5.cdengan bahasa C. Antrian pada program ini menggunakan priority queue dengan impelementasi",empty,186,empty);printf("%6.c%c\n",empty,186); 
+	printf("%10.c%c%5.cmenggunakan linked list. Sehingga antrian akan berubah urutannya berdasarkan nilai prioritas.",empty,186,empty);printf("%2.c%c\n",empty,186); 
+	printf("%10.c%c",empty,186);for(panjang=0; panjang<100; panjang++){printf("%c",empty);}printf("%c\n",186); 
+	printf("%10.c%c",empty,200);for(panjang=0; panjang<100; panjang++){printf("%c",205);}printf("%c\n",188);
 }
