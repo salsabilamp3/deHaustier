@@ -183,36 +183,34 @@ void printQueue(Queue Q){
 
 /* Memproses antrian untuk dilakukan pelayanan pada pasien dan keluar dari antrian */
 void prosesAntrian(Queue *Q){
-	system ("cls");
 	address P;
 	infoPasien R;	
 	int i=1;
 	char pilih;
+	char empty = ' ';
 	
 	P = (*Q).HEAD;
 	
-	printf("					====================================\n");
-	printf("						   Proses Antrian\n");
-	printf("					====================================\n");
+	
 	
 	if (P == Nil) { // Jika Queue Kosong
-		printf("\n					* Tidak Ada Antrian yang Terdaftar *\n\n");
+		printf("\n%43.c* Tidak Ada Antrian yang Terdaftar *\n\n",empty);
     } else {
 		do{
-			printf("					No. Antrian                 : %d\n", i++);
-			printf("					Nama Hewan                  : %s\n", InfoQ(P).namaHewan);
-			printf("					Datang di menit ke          : %d\n", InfoQ(P).waktuDatang);
-			puts("				        Penyakit yang Diderita      : ");
+			printf("\n%40.cNo. Antrian                 : %d\n",empty, i++);
+			printf("%40.cNama Hewan                  : %s\n",empty, InfoQ(P).namaHewan);
+			printf("%40.cDatang di menit ke          : %d\n",empty, InfoQ(P).waktuDatang);
+			printf("%40.cPenyakit yang diderita : ",empty);
 			printList(InfoQ(P).listPenyakit, arrPenyakit);
-			printf("					Nilai Prioritas             : %d\n", InfoQ(P).nilaiPrioritas);
-			printf("					Estimasi Waktu Pelayanan    : %d\n", InfoQ(P).waktuEstimasi);
-			printf("					Waktu Tunggu Pelayanan      : %d\n", InfoQ(P).waktuTunggu);
-			printf("					Waktu Mulai Pelayanan       : %d\n", InfoQ(P).waktuMulai);
-			printf("					Waktu Selesai Pelayanan     : %d\n", InfoQ(P).waktuSelesai);		
-			printf("					------------------------------------\n");
+			printf("\n%40.cNilai Prioritas             : %d\n",empty, InfoQ(P).nilaiPrioritas);
+			printf("%40.cEstimasi Waktu Pelayanan    : %d\n",empty, InfoQ(P).waktuEstimasi);
+			printf("%40.cWaktu Tunggu Pelayanan      : %d\n",empty, InfoQ(P).waktuTunggu);
+			printf("%40.cWaktu Mulai Pelayanan       : %d\n",empty, InfoQ(P).waktuMulai);
+			printf("%40.cWaktu Selesai Pelayanan     : %d\n",empty, InfoQ(P).waktuSelesai);		
+			printf("%40.c------------------------------------\n",empty);
 			P = NextQ(P);
 			R = (*Q).HEAD->info ;
-			printf("					Memulai Proses Pelayanan Untuk %s? [Y/N] ", R.namaHewan);
+			printf("%40.cMemulai Proses Pelayanan Untuk %s? [Y/N] ",empty, R.namaHewan);
 			fflush(stdin);
 			scanf("%c", &pilih);
 			
