@@ -1,14 +1,14 @@
 /*
 	DeHaustier
 	Program: queue.c
-	Deskripsi: implementasi bpdy dari queue.h
+	Deskripsi: implementasi body dari queue.h
 */
 
 #include "queue.h"
 #include <string.h>
 #include <stdlib.h>
 
-int latestSelesai = 0;
+time latestSelesai;
 char *arrPenyakit[9] = {
 	"Penyakit kulit",
 	"Luka ringan",
@@ -101,7 +101,7 @@ void registrasi(Queue *Q){
 	int tempPenyakit[9];
 	int i, totalPenyakit, countRingan, countSedang, countBerat;
 	char empty = ' ';
-	int maxWaktuDatang = getWaktuDatangTerbaru((*Q));
+	time maxWaktuDatang = getWaktuDatangTerbaru((*Q));
 	
 	printf("\n%40.cNama Pemilik: ",empty);
 	scanf("%s", &X.namaPemilik);
@@ -109,9 +109,9 @@ void registrasi(Queue *Q){
 	scanf("%s", &X.namaHewan);
 	
 	do{
-		printf("%40.cWaktu datang: ",empty);
-		scanf("%d", &X.waktuDatang);
-	}while(X.waktuDatang < maxWaktuDatang);
+		printf("%40.cWaktu datang (e.g 7 20): ",empty);
+		readTime(&X.waktuDatang);
+	}while(isLessThan(X.waktuDatang, maxWaktuDatang));
 	
 	printf("\n%40.cPenyakit:\n",empty);
 	printPenyakit();
@@ -146,6 +146,7 @@ void registrasi(Queue *Q){
 	
 	X.nilaiPrioritas = hitungPrioritas(countRingan, countSedang, countBerat);
 	X.waktuEstimasi = hitungEstimasi(countRingan, countSedang, countBerat);
+	
 	enQueue(Q, X);
 	hitungWaktu(*(&Q));
 }
@@ -165,15 +166,15 @@ void printQueue(Queue Q){
 			printf("%40.cNo. Antrian : %d\n",empty, i);
 			printf("%40.cNama Pemilik : %s\n",empty, InfoQ(P).namaPemilik);
 			printf("%40.cNama Hewan : %s\n",empty, InfoQ(P).namaHewan);
-			printf("%40.cWaktu datang : %d\n",empty, InfoQ(P).waktuDatang);
-			printf("%40.cPenyakit yang diderita : ",empty);
+			printf("%40.cWaktu datang : ",empty); printTime(InfoQ(P).waktuDatang);
+			printf("\n%40.cPenyakit yang diderita : ",empty);
 			printList(InfoQ(P).listPenyakit, arrPenyakit);
 			printf("\n%40.cNilai prioritas : %d\n",empty, InfoQ(P).nilaiPrioritas);
-			printf("%40.cEstimasi waktu pelayanan : %d\n",empty, InfoQ(P).waktuEstimasi);
-			printf("%40.cWaktu tunggu : %d\n",empty, InfoQ(P).waktuTunggu);
-			printf("%40.cWaktu mulai pelayanan : %d\n",empty, InfoQ(P).waktuMulai);
-			printf("%40.cWaktu pelayanan selesai : %d\n",empty, InfoQ(P).waktuSelesai);
-			printf("%40.c-----------------------------------------------\n",empty);
+			printf("%40.cEstimasi waktu pelayanan : %d menit\n",empty, InfoQ(P).waktuEstimasi);
+			printf("%40.cWaktu tunggu : %d menit\n",empty, InfoQ(P).waktuTunggu);
+			printf("%40.cWaktu mulai pelayanan : ",empty); printTime(InfoQ(P).waktuMulai);
+			printf("\n%40.cWaktu pelayanan selesai : ",empty); printTime(InfoQ(P).waktuSelesai);
+			printf("\n%40.c-----------------------------------------------\n",empty);
 			i++;
 			P = NextQ(P);
 		}
@@ -198,16 +199,17 @@ void prosesAntrian(Queue *Q){
     } else {
 		do{
 			printf("\n%40.cNo. Antrian                 : %d\n",empty, i++);
+			printf("%40.cNama Pemilik                  : %s\n",empty, InfoQ(P).namaPemilik);
 			printf("%40.cNama Hewan                  : %s\n",empty, InfoQ(P).namaHewan);
-			printf("%40.cDatang di menit ke          : %d\n",empty, InfoQ(P).waktuDatang);
-			printf("%40.cPenyakit yang diderita : ",empty);
+			printf("%40.cWaktu Datang                : ",empty); printTime(InfoQ(P).waktuDatang);
+			printf("\n%40.cPenyakit yang diderita : ",empty);
 			printList(InfoQ(P).listPenyakit, arrPenyakit);
 			printf("\n%40.cNilai Prioritas             : %d\n",empty, InfoQ(P).nilaiPrioritas);
-			printf("%40.cEstimasi Waktu Pelayanan    : %d\n",empty, InfoQ(P).waktuEstimasi);
-			printf("%40.cWaktu Tunggu Pelayanan      : %d\n",empty, InfoQ(P).waktuTunggu);
-			printf("%40.cWaktu Mulai Pelayanan       : %d\n",empty, InfoQ(P).waktuMulai);
-			printf("%40.cWaktu Selesai Pelayanan     : %d\n",empty, InfoQ(P).waktuSelesai);		
-			printf("%40.c------------------------------------\n",empty);
+			printf("%40.cEstimasi Waktu Pelayanan    : %d menit\n",empty, InfoQ(P).waktuEstimasi);
+			printf("%40.cWaktu Tunggu Pelayanan      : %d menit\n",empty, InfoQ(P).waktuTunggu);
+			printf("%40.cWaktu Mulai Pelayanan       : ",empty); printTime(InfoQ(P).waktuMulai);
+			printf("\n%40.cWaktu Selesai Pelayanan     : ",empty); printTime(InfoQ(P).waktuSelesai);
+			printf("\n%40.c------------------------------------\n",empty);
 			P = NextQ(P);
 			R = (*Q).HEAD->info ;
 			printf("%40.cMemulai Proses Pelayanan Untuk %s? [Y/N] ",empty, R.namaHewan);
@@ -306,50 +308,52 @@ void hitungWaktu(Queue *Q){
 	address P, prev;
 	
 	P = HEAD(*Q);
-	if(latestSelesai == 0 || latestSelesai < InfoQ(P).waktuDatang){
+	if(isNotStarted(latestSelesai) || isLessThan(latestSelesai, InfoQ(P).waktuDatang)){
 		InfoQ(P).waktuTunggu = 0;
 		InfoQ(P).waktuMulai = InfoQ(P).waktuDatang;
 	}
 	else{
-		InfoQ(P).waktuTunggu = latestSelesai - InfoQ(P).waktuDatang;
+		InfoQ(P).waktuTunggu = hourToMinute(substractTime(latestSelesai, InfoQ(P).waktuDatang));
 		InfoQ(P).waktuMulai = latestSelesai;
 	}
 	
-	InfoQ(P).waktuSelesai = InfoQ(P).waktuMulai + InfoQ(P).waktuEstimasi;
+	InfoQ(P).waktuSelesai = addMinute(InfoQ(P).waktuMulai, InfoQ(P).waktuEstimasi);
 	prev = P;
 	P = NextQ(P);
 	while(P != Nil){
-		InfoQ(P).waktuTunggu = InfoQ(prev).waktuSelesai - InfoQ(P).waktuDatang;
-		InfoQ(P).waktuMulai = InfoQ(P).waktuTunggu + InfoQ(P).waktuDatang;
+		InfoQ(P).waktuTunggu = hourToMinute(substractTime(InfoQ(prev).waktuSelesai, InfoQ(P).waktuDatang));
+		InfoQ(P).waktuMulai = addMinute(InfoQ(P).waktuDatang, InfoQ(P).waktuTunggu);
 		if(InfoQ(P).waktuTunggu <= 0){
 			InfoQ(P).waktuTunggu = 0;
 			InfoQ(P).waktuMulai = InfoQ(P).waktuDatang;
 		}
-		InfoQ(P).waktuSelesai = InfoQ(P).waktuMulai + InfoQ(P).waktuEstimasi;
+		InfoQ(P).waktuSelesai = addMinute(InfoQ(P).waktuMulai, InfoQ(P).waktuEstimasi);
 		prev = P;
 		P = NextQ(P);
 	}
 }
 
 /* Mengirimkan nilai waktu datang terbaru atau terbesar */
-int getWaktuDatangTerbaru(Queue Q){
-	int max = 0;
+time getWaktuDatangTerbaru(Queue Q){
+	time waktuMax;
+	createTime(&waktuMax, 0, 0);
+	
 	address P = HEAD(Q);
 	
 	if(!isQueEmpty(Q)){
-		max = InfoQ(P).waktuDatang;
+		waktuMax = InfoQ(P).waktuDatang;
 		while(NextQ(P) != Nil){
-			if(InfoQ(P).waktuDatang >= InfoQ(NextQ(P)).waktuDatang){
-				max = InfoQ(P).waktuDatang;
+			if(isEqual(InfoQ(P).waktuDatang, InfoQ(NextQ(P)).waktuDatang) || isGreatestThan(InfoQ(P).waktuDatang, InfoQ(NextQ(P)).waktuDatang)){
+				waktuMax = InfoQ(P).waktuDatang;
 			}
 			else{
-				max = InfoQ(NextQ(P)).waktuDatang;
+				waktuMax = InfoQ(NextQ(P)).waktuDatang;
 			}
 			P = NextQ(P);
 		}
 	}
 	
-	return max;
+	return waktuMax;
 	
 }
 

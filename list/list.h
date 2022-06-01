@@ -9,7 +9,7 @@
 
 #include <stdio.h>
 #include <conio.h>
-#include "boolean.h"
+#include "..\boolean.h"
 
 #define Nil NULL
 #define InfoL(P) (P)->info
