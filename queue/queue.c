@@ -111,8 +111,9 @@ void registrasi(Queue *Q){
 	do{
 		printf("%40.cWaktu datang (e.g 7 20): ",empty);
 		readTime(&X.waktuDatang);
-	}while(isLessThan(X.waktuDatang, maxWaktuDatang));
+	}while(!isTimeValid(X.waktuDatang) || isLessThan(X.waktuDatang, maxWaktuDatang));
 	
+	fflush(stdin);
 	printf("\n%40.cPenyakit:\n",empty);
 	printPenyakit();
 	printf("\n%40.cJumlah Penyakit: ",empty);

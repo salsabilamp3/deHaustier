@@ -44,9 +44,7 @@ void setMinute(time *waktu, int MM){
 void readTime(time *waktu){
 	time waktuBaru;
 	
-	do{
-		scanf("%d %d", &waktuBaru.hour, &waktuBaru.minute);
-	}while(!isTimeValid(waktuBaru));
+	scanf("%d %d", &waktuBaru.hour, &waktuBaru.minute);
 	
 	(*waktu) = waktuBaru;
 }
