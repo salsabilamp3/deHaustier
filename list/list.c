@@ -9,7 +9,8 @@
 #include <stdlib.h>
 
 /* ==== Konstruktor ==== */
-/* Mengirimkan address hasil alokasi elemen dengan info X */
+/* Mengirimkan address hasil alokasi elemen dengan info X 
+   Author : Fariz Muhamad Ibnu */
 adrList alokList(infoPenyakit X){
 	adrList P;
 	P = (ElmList *)malloc(sizeof(ElmList));
@@ -21,23 +22,27 @@ adrList alokList(infoPenyakit X){
 	return P;
 }
 
-/* Melakukan dealokasi memori dari elmen P */
+/* Melakukan dealokasi memori dari elmen P 
+   Author : Yane Pradita */
 void dealokList(adrList P){
 	NextL(P) = Nil;
 	free(P);
 }
 
-/* Membuat List kosong dengan First = Nil */
+/* Membuat List kosong dengan First = Nil 
+   Author : Yane Pradita */
 void createList(List *L){
 	First(*L) = Nil;
 }
 
-/* Mengembalikan nilai true jika Queue kosong */
+/* Mengembalikan nilai true jika Queue kosong 
+   Author : Fariz Muhamad Ibnu */
 boolean isListEmpty(List L){
 	return(First(L) == Nil);
 }
 
-/* Menambahkan elemen pertama pada List dengan nilai X */
+/* Menambahkan elemen pertama pada List dengan nilai X 
+   Author : Yane Pradita */
 void insertFirst(List *L, infoPenyakit X){
 	adrList P = alokList(X);
 	if(P != Nil){
@@ -46,7 +51,8 @@ void insertFirst(List *L, infoPenyakit X){
 	}
 }
 
-/* Menambahkan elemen terakhir pada List dengan nilai X */
+/* Menambahkan elemen terakhir pada List dengan nilai X 
+   Author : Yane Pradita */
 void insertLast(List *L, infoPenyakit X){
 	adrList P = alokList(X);
 	adrList Last;
@@ -64,7 +70,8 @@ void insertLast(List *L, infoPenyakit X){
 	}
 }
 
-/* Menghapus elemen pertama pada List */
+/* Menghapus elemen pertama pada List 
+   Author : Fariz Muhamad Ibnu */
 void delFirst(List *L, infoPenyakit *X){
 	adrList P;
 	P  = First(*L);
@@ -77,7 +84,8 @@ void delFirst(List *L, infoPenyakit *X){
 	dealokList(P);
 }
 
-/* Menghapus elemen terakhir pada List */
+/* Menghapus elemen terakhir pada List 
+   Author : Fariz Muhamad Ibnu */
 void delLast(List *L, infoPenyakit *X){
 	adrList P, Last, newLast;
 	
@@ -97,7 +105,8 @@ void delLast(List *L, infoPenyakit *X){
 	dealokList(P);
 }
 
-/* Menampilkan isi elemen yang ada pada List */
+/* Menampilkan isi elemen yang ada pada List 
+   Author : Fariz Muhamad Ibnu */
 void printList(List L, char **namaPenyakit){
 	adrList P = First(L);
 	int i = 1;
