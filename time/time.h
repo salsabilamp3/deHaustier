@@ -2,6 +2,7 @@
 	DeHaustier
 	Program: time.h
 	Deskripsi: File header ADT time
+	Author : Salsabila Maharani Putri 
 */
 
 #ifndef time_H

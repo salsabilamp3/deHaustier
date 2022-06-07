@@ -2,6 +2,7 @@
 	DeHaustier
 	Program: time.h
 	Deskripsi: implementasi body dari time.h
+	Author : Salsabila Maharani Putri 
 */
 
 #include "time.h"
