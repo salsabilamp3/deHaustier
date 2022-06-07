@@ -8,7 +8,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-time latestSelesai;
+time latestSelesai; //untuk menyimpan waktu selesai terakhir yang telah terhapus
+//Daftar penyakit yang tersedia
 char *arrPenyakit[9] = {
 	"Penyakit kulit",
 	"Luka ringan",
@@ -22,7 +23,8 @@ char *arrPenyakit[9] = {
 };
 
 /* ==== Konstruktor ==== */
-/* Mengirimkan address hasil alokasi elemen dengan info X */
+/* Mengirimkan address hasil alokasi elemen dengan info X 
+   Author : Fariz Muhamad Ibnu */
 address alokasi(infoPasien X){
 	address P;
 	
@@ -35,23 +37,27 @@ address alokasi(infoPasien X){
 	return P;
 }
 
-/* Melakukan dealokasi memori dari elmen P */
+/* Melakukan dealokasi memori dari elmen P
+   Author : Yane Pradita */
 void dealokasi(address P){
 	NextQ(P) = Nil;
 	free(P);
 }
 
-/* Membuat Queue kosong dengan HEAD = Nil dan TAIL = Nil */
+/* Membuat Queue kosong dengan HEAD = Nil dan TAIL = Nil
+   Author : Fariz Muhamad Ibnu */
 void createQueue(Queue *Q){
 	HEAD(*Q) = Nil;
 }
 
-/* Mengembalikan nilai true jika Queue kosong */
+/* Mengembalikan nilai true jika Queue kosong 
+   Author : Fariz Muhamad Ibnu */
 boolean isQueEmpty(Queue Q){
 	return (HEAD(Q) == Nil);
 }
 
-/* Memasukkan info elemen baru ke dalam Queue */
+/* Memasukkan info elemen baru ke dalam Queue 
+   Author : Salsabila Maharani Putri */
 void enQueue(Queue *Q, infoPasien X){
 	address P, temp;
 	
@@ -72,7 +78,8 @@ void enQueue(Queue *Q, infoPasien X){
 	}
 }
 
-/* Mengeluarkan elemen dari Queue */
+/* Mengeluarkan elemen dari Queue 
+   Author : Fariz Muhamad Ibnu */
 void deQueue(Queue *Q){
 	address P;
 	
@@ -93,7 +100,8 @@ void deQueue(Queue *Q){
 	}
 }
 
-/* Melakukan registrasi untuk menambahkan data pasien */
+/* Melakukan registrasi untuk menambahkan data pasien 
+   Author : Salsabila Maharani Putri */
 void registrasi(Queue *Q){
 	infoPasien X;
 	createList(&X.listPenyakit);
@@ -152,7 +160,8 @@ void registrasi(Queue *Q){
 	hitungWaktu(*(&Q));
 }
 
-/* Menampilkan isi antrian Queue */
+/* Menampilkan isi antrian Queue 
+   Author : Fariz Muhamad Ibnu */
 void printQueue(Queue Q){
 	address P = HEAD(Q);
 	int i = 1;
@@ -183,10 +192,10 @@ void printQueue(Queue Q){
 	}
 }
 
-/* Memproses antrian untuk dilakukan pelayanan pada pasien dan keluar dari antrian */
+/* Memproses antrian untuk dilakukan pelayanan pada pasien dan keluar dari antrian 
+   Author : Yane Pradita */
 void prosesAntrian(Queue *Q){
-	address P;
-	infoPasien R;	
+	address P;	
 	int i=1;
 	char pilih;
 	char empty = ' ';
@@ -198,9 +207,8 @@ void prosesAntrian(Queue *Q){
 	if (P == Nil) { // Jika Queue Kosong
 		printf("\n%43.c* Tidak Ada Antrian yang Terdaftar *\n\n",empty);
     } else {
-		do{
 			printf("\n%40.cNo. Antrian                 : %d\n",empty, i++);
-			printf("%40.cNama Pemilik                  : %s\n",empty, InfoQ(P).namaPemilik);
+			printf("%40.cNama Pemilik                : %s\n",empty, InfoQ(P).namaPemilik);
 			printf("%40.cNama Hewan                  : %s\n",empty, InfoQ(P).namaHewan);
 			printf("%40.cWaktu Datang                : ",empty); printTime(InfoQ(P).waktuDatang);
 			printf("\n%40.cPenyakit yang diderita : ",empty);
@@ -211,9 +219,7 @@ void prosesAntrian(Queue *Q){
 			printf("%40.cWaktu Mulai Pelayanan       : ",empty); printTime(InfoQ(P).waktuMulai);
 			printf("\n%40.cWaktu Selesai Pelayanan     : ",empty); printTime(InfoQ(P).waktuSelesai);
 			printf("\n%40.c------------------------------------\n",empty);
-			P = NextQ(P);
-			R = (*Q).HEAD->info ;
-			printf("%40.cMemulai Proses Pelayanan Untuk %s? [Y/N] ",empty, R.namaHewan);
+			printf("%40.cMemulai Proses Pelayanan Untuk %s? [Y/N] ",empty, InfoQ(P).namaHewan);
 			fflush(stdin);
 			scanf("%c", &pilih);
 			
@@ -226,11 +232,11 @@ void prosesAntrian(Queue *Q){
 			else if(pilih == 'N' || pilih == 'n'){
 				printf("					*  Silahkan Kembali Ke Antrian *\n");
 			}
-		}while(P != Nil && (pilih == 'Y' || pilih == 'y'));
 	}	
 }
 
-/* Menampilkan list penyakit yang bisa dipilih */
+/* Menampilkan list penyakit yang bisa dipilih 
+   Author : Fariz Muhamad Ibnu */
 void printPenyakit(){
 		int i, j;
 		char empty = ' ';
@@ -254,7 +260,8 @@ void printPenyakit(){
 	}
 }
 
-/* Memeriksa kategori penyakit */
+/* Memeriksa kategori penyakit 
+   Author : Yane Pradita */
 char *cekKategori(int penyakit){
 	if(penyakit < 4){
 		return "Ringan";
@@ -267,7 +274,8 @@ char *cekKategori(int penyakit){
 	}
 }
 
-/* Menghitung nilai prioritas berdasarkan kategori penyakit */
+/* Menghitung nilai prioritas berdasarkan kategori penyakit 
+   Author : Yane Pradita */
 int hitungPrioritas(int ringan, int sedang, int berat){
 	int nilai = 1;
 	
@@ -284,7 +292,8 @@ int hitungPrioritas(int ringan, int sedang, int berat){
 	return nilai;
 }
 
-/* Menghitung estimasi lama pelayanan berdasarkan penyakit yang diderita */
+/* Menghitung estimasi lama pelayanan berdasarkan penyakit yang diderita 
+   Author : Yane Pradita */
 int cekEkstimasi(int penyakit){
 	int estimasi = 0;
 	if(penyakit < 4){
@@ -299,12 +308,14 @@ int cekEkstimasi(int penyakit){
 	return estimasi;
 }
 
-/* Menghitung estimasi pelayanan selesai */
+/* Menghitung estimasi pelayanan selesai 
+   Author : Yane Pradita */
 int hitungEstimasi(int ringan, int sedang, int berat){
 	return ((ringan * 15) + (sedang * 30) + (berat *45));
 }
 
-/* Menghitung waktu mulai hingga selesai dan berapa lama pasien menunggu */
+/* Menghitung waktu mulai hingga selesai dan berapa lama pasien menunggu 
+   Author : Salsabila Maharani Putri */
 void hitungWaktu(Queue *Q){
 	address P, prev;
 	
@@ -334,7 +345,8 @@ void hitungWaktu(Queue *Q){
 	}
 }
 
-/* Mengirimkan nilai waktu datang terbaru atau terbesar */
+/* Mengirimkan nilai waktu datang terbaru atau terbesar 
+   Author : Salsabila Maharani Putri */
 time getWaktuDatangTerbaru(Queue Q){
 	time waktuMax;
 	createTime(&waktuMax, 0, 0);
@@ -358,6 +370,8 @@ time getWaktuDatangTerbaru(Queue Q){
 	
 }
 
+/* Menghitung jumlah antrian
+   Author : Yane Pradita */
 int jumlahAntrian(Queue Q){
 		int jumlah = 0;
 		address P = HEAD(Q);
