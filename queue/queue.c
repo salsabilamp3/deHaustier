@@ -216,7 +216,7 @@ address P;
     } 
 	else {
     	do{
-    		printf("\n%40.cWaktu saat ini               : ",empty);
+    		printf("\n%40.cWaktu saat ini              : ",empty);
     		readTime(&waktu);
 		}while(isLessThan(waktu, currentTime) || isLessThan(waktu, InfoQ(P).waktuDatang));
 		currentTime = waktu;
@@ -231,7 +231,7 @@ address P;
 			printf("%40.cNama Pemilik                : %s\n",empty, InfoQ(P).namaPemilik);
 			printf("%40.cNama Hewan                  : %s\n",empty, InfoQ(P).namaHewan);
 			printf("%40.cWaktu Datang                : ",empty); printTime(InfoQ(P).waktuDatang);
-			printf("\n%40.cPenyakit yang diderita : ",empty);
+			printf("\n%40.cPenyakit yang diderita      : ",empty);
 			printList(InfoQ(P).listPenyakit, arrPenyakit);
 			printf("\n%40.cNilai Prioritas             : %d\n",empty, InfoQ(P).nilaiPrioritas);
 			printf("%40.cEstimasi Waktu Pelayanan    : %d menit\n",empty, InfoQ(P).waktuEstimasi);
@@ -243,9 +243,9 @@ address P;
 			currentProses = InfoQ(P);
 			deQueue(Q);
 			printf("\n");
-			printf("					       * Harap bersabar *\n");
-			printf("					  * Hewan Sedang Diobati *\n\n");
-			printf("					*  Silahkan Kembali Ke Antrian *\n");
+			printf("					        * Harap bersabar *\n");
+			printf("					     * Hewan Sedang Diobati *\n\n");
+			printf("					  *  Silahkan Kembali Ke Antrian *\n");
 		}
 		
 	}	
@@ -461,14 +461,14 @@ void cariAntrian(Queue Q){
 void printProses(){
 	char empty = ' ';
 	if(currentProses.listPenyakit.First == Nil || isLessThan(currentProses.waktuSelesai, currentTime)){
-		printf("\n%43.c* Ruangan Kosong *\n\n",empty);
+		printf("\n%50.c* Ruangan Kosong *\n\n",empty);
 	}
 	else{
-		printf("\n%40.c* Sedang diobati *\n\n",empty);
+		printf("\n%50.c* Sedang diobati *\n\n",empty);
 		printf("%40.cNama Pemilik                : %s\n",empty, currentProses.namaPemilik);
 		printf("%40.cNama Hewan                  : %s\n",empty, currentProses.namaHewan);
 		printf("%40.cWaktu Datang                : ",empty); printTime(currentProses.waktuDatang);
-		printf("\n%40.cPenyakit yang diderita : ",empty);
+		printf("\n%40.cPenyakit yang diderita      : ",empty);
 		printList(currentProses.listPenyakit, arrPenyakit);
 		printf("\n%40.cNilai Prioritas             : %d\n",empty, currentProses.nilaiPrioritas);
 		printf("%40.cEstimasi Waktu Pelayanan    : %d menit\n",empty, currentProses.waktuEstimasi);
