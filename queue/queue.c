@@ -9,6 +9,10 @@
 #include <stdlib.h>
 
 time latestSelesai; //untuk menyimpan waktu selesai terakhir yang telah terhapus
+time latestDatang; //untuk menampung waktu datang terbaru
+time currentTime; //untuk menampung waktu saat ini sebelum melakukan pemanggilan
+infoPasien currentProses; //untuk menampung info pasien yang sedang diproses
+
 //Daftar penyakit yang tersedia
 char *arrPenyakit[9] = {
 	"Penyakit kulit",
@@ -109,7 +113,6 @@ void registrasi(Queue *Q){
 	int tempPenyakit[9];
 	int i, totalPenyakit, countRingan, countSedang, countBerat;
 	char empty = ' ';
-	time maxWaktuDatang = getWaktuDatangTerbaru((*Q));
 	
 	printf("\n%40.cNama Pemilik: ",empty);
 	scanf("%s", &X.namaPemilik);
@@ -119,8 +122,12 @@ void registrasi(Queue *Q){
 	do{
 		printf("%40.cWaktu datang (e.g 7 20): ",empty);
 		readTime(&X.waktuDatang);
-	}while(!isTimeValid(X.waktuDatang) || isLessThan(X.waktuDatang, maxWaktuDatang));
+	}while(!isTimeValid(X.waktuDatang) || isLessThan(X.waktuDatang, currentTime) || isLessThan(X.waktuDatang, latestDatang));
 	
+	latestDatang = X.waktuDatang;
+	if(isGreatestThan(latestDatang, currentTime)){
+		currentTime = latestDatang;
+	}
 	fflush(stdin);
 	printf("\n%40.cPenyakit:\n",empty);
 	printPenyakit();
@@ -195,9 +202,9 @@ void printQueue(Queue Q){
 /* Memproses antrian untuk dilakukan pelayanan pada pasien dan keluar dari antrian 
    Author : Yane Pradita */
 void prosesAntrian(Queue *Q){
-	address P;	
+address P;	
 	int i=1;
-	char pilih;
+	time waktu;
 	char empty = ' ';
 	
 	P = (*Q).HEAD;
@@ -206,12 +213,25 @@ void prosesAntrian(Queue *Q){
 	
 	if (P == Nil) { // Jika Queue Kosong
 		printf("\n%43.c* Tidak Ada Antrian yang Terdaftar *\n\n",empty);
-    } else {
-			printf("\n%40.cNo. Antrian                 : %d\n",empty, i++);
+    } 
+	else {
+    	do{
+    		printf("\n%40.cWaktu saat ini               : ",empty);
+    		readTime(&waktu);
+		}while(isLessThan(waktu, currentTime) || isLessThan(waktu, InfoQ(P).waktuDatang));
+		currentTime = waktu;
+		
+		if(isLessThan(currentTime, latestSelesai)){
+			printf("\n%43.c* Pasien sebelumnya belum selesai *\n\n",empty);
+		}
+		else{
+			hitungWaktu(*(&Q));
+			
+			printf("\n\n%40.cNo. Antrian                 : %d\n",empty, i++);
 			printf("%40.cNama Pemilik                : %s\n",empty, InfoQ(P).namaPemilik);
 			printf("%40.cNama Hewan                  : %s\n",empty, InfoQ(P).namaHewan);
 			printf("%40.cWaktu Datang                : ",empty); printTime(InfoQ(P).waktuDatang);
-			printf("\n%40.cPenyakit yang diderita      : ",empty);
+			printf("\n%40.cPenyakit yang diderita : ",empty);
 			printList(InfoQ(P).listPenyakit, arrPenyakit);
 			printf("\n%40.cNilai Prioritas             : %d\n",empty, InfoQ(P).nilaiPrioritas);
 			printf("%40.cEstimasi Waktu Pelayanan    : %d menit\n",empty, InfoQ(P).waktuEstimasi);
@@ -219,19 +239,15 @@ void prosesAntrian(Queue *Q){
 			printf("%40.cWaktu Mulai Pelayanan       : ",empty); printTime(InfoQ(P).waktuMulai);
 			printf("\n%40.cWaktu Selesai Pelayanan     : ",empty); printTime(InfoQ(P).waktuSelesai);
 			printf("\n%40.c------------------------------------\n",empty);
-			printf("%40.cMemulai Proses Pelayanan Untuk %s? [Y/N] ",empty, InfoQ(P).namaHewan);
-			fflush(stdin);
-			scanf("%c", &pilih);
 			
-			if(pilih == 'Y' || pilih == 'y'){
-				deQueue(Q);
-				printf("\n");
-				printf("					       * Harap bersabar *\n");
-				printf("					  * Hewan Anda Sedang Diobati *\n\n");
-			} 
-			else if(pilih == 'N' || pilih == 'n'){
-				printf("					*  Silahkan Kembali Ke Antrian *\n");
-			}
+			currentProses = InfoQ(P);
+			deQueue(Q);
+			printf("\n");
+			printf("					       * Harap bersabar *\n");
+			printf("					  * Hewan Sedang Diobati *\n\n");
+			printf("					*  Silahkan Kembali Ke Antrian *\n");
+		}
+		
 	}	
 }
 
@@ -280,13 +296,13 @@ int hitungPrioritas(int ringan, int sedang, int berat){
 	int nilai = 1;
 	
 	if(berat >= 1){
-		nilai += 4;
+		nilai = 4;
 	}
 	if(sedang >= 2){
-		nilai += 3;
+		nilai = 3;
 	}
 	if(ringan >= 3){
-		nilai += 2;
+		nilai = 2;
 	}
 	
 	return nilai;
@@ -320,13 +336,19 @@ void hitungWaktu(Queue *Q){
 	address P, prev;
 	
 	P = HEAD(*Q);
-	if(isNotStarted(latestSelesai) || isLessThan(latestSelesai, InfoQ(P).waktuDatang)){
-		InfoQ(P).waktuTunggu = 0;
-		InfoQ(P).waktuMulai = InfoQ(P).waktuDatang;
+	
+	if(!isNotStarted(currentTime)){
+		if(isLessThan(currentTime, latestSelesai)){
+			InfoQ(P).waktuMulai = latestSelesai;
+		}
+		else{
+			InfoQ(P).waktuMulai = currentTime;
+		}
+		InfoQ(P).waktuTunggu = hourToMinute(substractTime(InfoQ(P).waktuMulai, InfoQ(P).waktuDatang));
 	}
 	else{
-		InfoQ(P).waktuTunggu = hourToMinute(substractTime(latestSelesai, InfoQ(P).waktuDatang));
-		InfoQ(P).waktuMulai = latestSelesai;
+		InfoQ(P).waktuTunggu = 0;
+		InfoQ(P).waktuMulai = InfoQ(P).waktuDatang;
 	}
 	
 	InfoQ(P).waktuSelesai = addMinute(InfoQ(P).waktuMulai, InfoQ(P).waktuEstimasi);
@@ -417,21 +439,42 @@ void cariAntrian(Queue Q){
 	char empty = ' ';
 	
 	P = cariHewan(Q);
-			if(P != Nil){
-				printf("\n%40.cNo. Antrian                 : %d\n",empty, i++);
-				printf("%40.cNama Pemilik                : %s\n",empty, InfoQ(P).namaPemilik);
-				printf("%40.cNama Hewan                  : %s\n",empty, InfoQ(P).namaHewan);
-				printf("%40.cWaktu Datang                : ",empty); printTime(InfoQ(P).waktuDatang);
-				printf("\n%40.cPenyakit yang diderita      : ",empty);
-				printList(InfoQ(P).listPenyakit, arrPenyakit);
-				printf("\n%40.cNilai Prioritas             : %d\n",empty, InfoQ(P).nilaiPrioritas);
-				printf("%40.cEstimasi Waktu Pelayanan    : %d menit\n",empty, InfoQ(P).waktuEstimasi);
-				printf("%40.cWaktu Tunggu Pelayanan      : %d menit\n",empty, InfoQ(P).waktuTunggu);
-				printf("%40.cWaktu Mulai Pelayanan       : ",empty); printTime(InfoQ(P).waktuMulai);
-				printf("\n%40.cWaktu Selesai Pelayanan     : ",empty); printTime(InfoQ(P).waktuSelesai);
-				printf("\n%40.c------------------------------------\n",empty);
-			}
-			else{
-				printf("\n\n%45.cHewan tidak ada dalam antrian\n",empty);
-			}
+	if(P != Nil){
+		printf("\n%40.cNo. Antrian                 : %d\n",empty, i++);
+		printf("%40.cNama Pemilik                : %s\n",empty, InfoQ(P).namaPemilik);
+		printf("%40.cNama Hewan                  : %s\n",empty, InfoQ(P).namaHewan);
+		printf("%40.cWaktu Datang                : ",empty); printTime(InfoQ(P).waktuDatang);
+		printf("\n%40.cPenyakit yang diderita      : ",empty);
+		printList(InfoQ(P).listPenyakit, arrPenyakit);
+		printf("\n%40.cNilai Prioritas             : %d\n",empty, InfoQ(P).nilaiPrioritas);
+		printf("%40.cEstimasi Waktu Pelayanan    : %d menit\n",empty, InfoQ(P).waktuEstimasi);
+		printf("%40.cWaktu Tunggu Pelayanan      : %d menit\n",empty, InfoQ(P).waktuTunggu);
+		printf("%40.cWaktu Mulai Pelayanan       : ",empty); printTime(InfoQ(P).waktuMulai);
+		printf("\n%40.cWaktu Selesai Pelayanan     : ",empty); printTime(InfoQ(P).waktuSelesai);
+		printf("\n%40.c------------------------------------\n",empty);
+	}
+	else{
+		printf("\n\n%45.cHewan tidak ada dalam antrian\n",empty);
+	}
+}
+
+void printProses(){
+	char empty = ' ';
+	if(currentProses.listPenyakit.First == Nil || isLessThan(currentProses.waktuSelesai, currentTime)){
+		printf("\n%43.c* Ruangan Kosong *\n\n",empty);
+	}
+	else{
+		printf("\n%40.c* Sedang diobati *\n\n",empty);
+		printf("%40.cNama Pemilik                : %s\n",empty, currentProses.namaPemilik);
+		printf("%40.cNama Hewan                  : %s\n",empty, currentProses.namaHewan);
+		printf("%40.cWaktu Datang                : ",empty); printTime(currentProses.waktuDatang);
+		printf("\n%40.cPenyakit yang diderita : ",empty);
+		printList(currentProses.listPenyakit, arrPenyakit);
+		printf("\n%40.cNilai Prioritas             : %d\n",empty, currentProses.nilaiPrioritas);
+		printf("%40.cEstimasi Waktu Pelayanan    : %d menit\n",empty, currentProses.waktuEstimasi);
+		printf("%40.cWaktu Tunggu Pelayanan      : %d menit\n",empty, currentProses.waktuTunggu);
+		printf("%40.cWaktu Mulai Pelayanan       : ",empty); printTime(currentProses.waktuMulai);
+		printf("\n%40.cWaktu Selesai Pelayanan     : ",empty); printTime(currentProses.waktuSelesai);
+		printf("\n");
+	}
 }

@@ -113,4 +113,8 @@ address cariHewan(Queue Q);
    Author : Fariz Muhamad Ibnu */
 void cariAntrian(Queue Q);
 
+/* Menampilkan pasien yang sedang diproses
+   Author : Salsabila Maharani Putri */
+void printProses();
+
 #endif

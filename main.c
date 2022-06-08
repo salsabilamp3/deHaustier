@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
 			printf("%10.c%c%21.c|  %c %c__/ /~~%c | %c| %c__>    |    |___ |  %c | |  %c .__/ /~~%c ",empty,186,empty,92,92,92,92,92,92,92,92);printf("%19.c%c\n",empty,186);
 			printf("%10.c%c",empty,186);for(panjang=0; panjang<100; panjang++){printf("%c",empty);}printf("%c\n",186);                                                          
 		    printf("%10.c%c",empty,200);for(panjang=0; panjang<100; panjang++){printf("%c",205);}printf("%c\n",188); 
-		    
+		    printProses();
 			system("pause");
 		}
 		
