@@ -105,4 +105,12 @@ time getWaktuDatangTerbaru(Queue Q);
    Author : Yane Pradita */
 int jumlahAntrian(Queue Q);
 
+/* Mencari data dengan key search nama pada queue 
+   Author : Fariz Muhamad Ibnu */
+address cariHewan(Queue Q);
+
+/* mencari antrian hewan 
+   Author : Fariz Muhamad Ibnu */
+void cariAntrian(Queue Q);
+
 #endif

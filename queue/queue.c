@@ -173,17 +173,17 @@ void printQueue(Queue Q){
 	else{
 			printf("\n%40.cJUMLAH ANTRIAN : %d\n\n",empty, (jumlahAntrian(Q)));
 		while(P != Nil){
-			printf("%40.cNo. Antrian : %d\n",empty, i);
-			printf("%40.cNama Pemilik : %s\n",empty, InfoQ(P).namaPemilik);
-			printf("%40.cNama Hewan : %s\n",empty, InfoQ(P).namaHewan);
-			printf("%40.cWaktu datang : ",empty); printTime(InfoQ(P).waktuDatang);
-			printf("\n%40.cPenyakit yang diderita : ",empty);
+			printf("%40.cNo. Antrian                 : %d\n",empty, i);
+			printf("%40.cNama Pemilik                : %s\n",empty, InfoQ(P).namaPemilik);
+			printf("%40.cNama Hewan                  : %s\n",empty, InfoQ(P).namaHewan);
+			printf("%40.cWaktu datang                : ",empty); printTime(InfoQ(P).waktuDatang);
+			printf("\n%40.cPenyakit yang diderita      : ",empty);
 			printList(InfoQ(P).listPenyakit, arrPenyakit);
-			printf("\n%40.cNilai prioritas : %d\n",empty, InfoQ(P).nilaiPrioritas);
-			printf("%40.cEstimasi waktu pelayanan : %d menit\n",empty, InfoQ(P).waktuEstimasi);
-			printf("%40.cWaktu tunggu : %d menit\n",empty, InfoQ(P).waktuTunggu);
-			printf("%40.cWaktu mulai pelayanan : ",empty); printTime(InfoQ(P).waktuMulai);
-			printf("\n%40.cWaktu pelayanan selesai : ",empty); printTime(InfoQ(P).waktuSelesai);
+			printf("\n%40.cNilai prioritas             : %d\n",empty, InfoQ(P).nilaiPrioritas);
+			printf("%40.cEstimasi waktu pelayanan    : %d menit\n",empty, InfoQ(P).waktuEstimasi);
+			printf("%40.cWaktu tunggu                : %d menit\n",empty, InfoQ(P).waktuTunggu);
+			printf("%40.cWaktu mulai pelayanan       : ",empty); printTime(InfoQ(P).waktuMulai);
+			printf("\n%40.cWaktu pelayanan selesai     : ",empty); printTime(InfoQ(P).waktuSelesai);
 			printf("\n%40.c-----------------------------------------------\n",empty);
 			i++;
 			P = NextQ(P);
@@ -211,7 +211,7 @@ void prosesAntrian(Queue *Q){
 			printf("%40.cNama Pemilik                : %s\n",empty, InfoQ(P).namaPemilik);
 			printf("%40.cNama Hewan                  : %s\n",empty, InfoQ(P).namaHewan);
 			printf("%40.cWaktu Datang                : ",empty); printTime(InfoQ(P).waktuDatang);
-			printf("\n%40.cPenyakit yang diderita : ",empty);
+			printf("\n%40.cPenyakit yang diderita      : ",empty);
 			printList(InfoQ(P).listPenyakit, arrPenyakit);
 			printf("\n%40.cNilai Prioritas             : %d\n",empty, InfoQ(P).nilaiPrioritas);
 			printf("%40.cEstimasi Waktu Pelayanan    : %d menit\n",empty, InfoQ(P).waktuEstimasi);
@@ -387,4 +387,51 @@ int jumlahAntrian(Queue Q){
 			
 		}
 		return jumlah;
+}
+
+/* Mencari data dengan key search nama pada queue 
+   Author : Fariz Muhamad Ibnu */
+address cariHewan(Queue Q){
+	address P;
+	char namaHewan[20];
+	char empty = ' ';
+	
+	P = HEAD(Q);
+	printf("%52.c Nama Hewan : ", empty);
+	scanf("%s", &namaHewan);
+	fflush(stdin);
+	while((P != NULL)){
+		if(strcmp(P->info.namaHewan, namaHewan) == 0){
+			return P;
+		}
+		P = NextQ(P);	
+	}
+	return Nil;	
+}
+
+/* mencari antrian hewan 
+   Author : Fariz Muhamad Ibnu */
+void cariAntrian(Queue Q){
+	address P;
+	int i = 1;
+	char empty = ' ';
+	
+	P = cariHewan(Q);
+			if(P != Nil){
+				printf("\n%40.cNo. Antrian                 : %d\n",empty, i++);
+				printf("%40.cNama Pemilik                : %s\n",empty, InfoQ(P).namaPemilik);
+				printf("%40.cNama Hewan                  : %s\n",empty, InfoQ(P).namaHewan);
+				printf("%40.cWaktu Datang                : ",empty); printTime(InfoQ(P).waktuDatang);
+				printf("\n%40.cPenyakit yang diderita      : ",empty);
+				printList(InfoQ(P).listPenyakit, arrPenyakit);
+				printf("\n%40.cNilai Prioritas             : %d\n",empty, InfoQ(P).nilaiPrioritas);
+				printf("%40.cEstimasi Waktu Pelayanan    : %d menit\n",empty, InfoQ(P).waktuEstimasi);
+				printf("%40.cWaktu Tunggu Pelayanan      : %d menit\n",empty, InfoQ(P).waktuTunggu);
+				printf("%40.cWaktu Mulai Pelayanan       : ",empty); printTime(InfoQ(P).waktuMulai);
+				printf("\n%40.cWaktu Selesai Pelayanan     : ",empty); printTime(InfoQ(P).waktuSelesai);
+				printf("\n%40.c------------------------------------\n",empty);
+			}
+			else{
+				printf("\n\n%45.cHewan tidak ada dalam antrian\n",empty);
+			}
 }

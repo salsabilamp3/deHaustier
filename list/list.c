@@ -118,7 +118,7 @@ void printList(List L, char **namaPenyakit){
 	else{
 		do{
 			printf("%d) %s : %s (%d menit)\n", i, namaPenyakit[InfoL(P).penyakit -1], InfoL(P).kategori, InfoL(P).waktuEstimasi);
-			printf("%65.c", empty);
+			printf("%70.c", empty);
 			P = NextL(P);
 			i += 1;
 		} while(P != Nil);
