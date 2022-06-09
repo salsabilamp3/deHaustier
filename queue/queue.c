@@ -435,13 +435,11 @@ address cariHewan(Queue Q){
    Author : Fariz Muhamad Ibnu */
 void cariAntrian(Queue Q){
 	address P;
-	int i = 1;
 	char empty = ' ';
 	
 	P = cariHewan(Q);
 	if(P != Nil){
-		printf("\n%40.cNo. Antrian                 : %d\n",empty, i++);
-		printf("%40.cNama Pemilik                : %s\n",empty, InfoQ(P).namaPemilik);
+		printf("\n%40.cNama Pemilik                : %s\n",empty, InfoQ(P).namaPemilik);
 		printf("%40.cNama Hewan                  : %s\n",empty, InfoQ(P).namaHewan);
 		printf("%40.cWaktu Datang                : ",empty); printTime(InfoQ(P).waktuDatang);
 		printf("\n%40.cPenyakit yang diderita      : ",empty);
